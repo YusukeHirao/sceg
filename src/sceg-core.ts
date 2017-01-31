@@ -3,6 +3,9 @@ import * as glob from 'glob';
 import * as path from 'path';
 
 import * as pug from 'pug';
+import * as lex from 'pug-lexer';
+import * as parse from 'pug-parser';
+import * as walk from 'pug-walk';
 
 export interface ScegOption {
 	indexDir?: string;
@@ -60,9 +63,16 @@ function compile (elementFilePath: string): Promise<ScegElement> {
 }
 
 function compilePug (sourceCode: string): ScegElement {
-	const title = '';
-	const comment = '';
-	const category = '';
+	const ast = parse(lex(sourceCode));
+	let title = '';
+	let comment = '';
+	let category = '';
+	walk(ast, (node: { type: string, buffer: boolean, val: string }) => {
+		if (node.type === 'Comment' && !node.buffer) {
+			const line = node.val;
+			console.log(line);
+		}
+	});
 	return {
 		html: pug.render(sourceCode, { pretty: true }),
 		title,
