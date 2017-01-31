@@ -9,6 +9,7 @@
   "devDependencies": {
     "@types/fs-promise": "^1.0.1",
     "@types/glob": "^5.0.30",
+    "@types/handlebars": "^4.0.31",
     "@types/pug": "^2.0.4",
     "babel": "^6.5.2",
     "babel-loader": "^6.2.10",
@@ -31,8 +32,12 @@
     "typescript": "^2.1.5"
   },
   "dependencies": {
-    "fs-promise": "^1.0.0",
+    "@types/mkdirp": "^0.3.29",
     "glob": "^7.1.1",
+    "handlebars": "^4.0.6",
+    "mkdirp": "^0.5.1",
+    "posthtml-parser": "^0.2.0",
+    "posthtml-render": "^1.0.6",
     "pug": "^2.0.0-beta9",
     "pug-lexer": "^2.3.1",
     "pug-parser": "^2.0.2",

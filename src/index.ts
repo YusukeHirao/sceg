@@ -1,3 +1,5 @@
 import { sceg } from './sceg-core';
 
-sceg();
+sceg({
+	outDir: '.sample/index.html',
+});

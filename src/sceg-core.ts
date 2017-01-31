@@ -1,94 +1,130 @@
-import * as fsp from 'fs-promise';
+import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
+import * as handlebars from 'handlebars';
+import * as mkdirp from 'mkdirp';
 
-import * as pug from 'pug';
-import * as lex from 'pug-lexer';
-import * as parse from 'pug-parser';
-import * as walk from 'pug-walk';
+import { IScegElement } from './IScegElement';
 
-export interface ScegOption {
+import assignConfig from './fn/assignConfig';
+import compile from './fn/compile';
+
+export interface IScegOption {
 	indexDir?: string;
 	index?: string;
 	elementDir?: string;
 	elements?: string;
+	outDir?: string | null;
+	otherLabel?: string;
 }
 
-interface ScegElement {
-	html: string;
-	title: string;
-	comment: string;
-	category: string | null;
+export interface IScegConfig {
+	indexDir: string;
+	index: string;
+	elementDir: string;
+	elements: string;
+	outDir: string | null;
+	otherLabel: string;
 }
 
-export function sceg (option?: ScegOption): void {
-	const config = assignConfig(option);
-	const globPath = path.resolve(process.cwd(), config.elementDir, config.elements);
-	glob(globPath, (err, elementFilePathes) => {
-		if (err) {
-			throw err;
+interface IScegContentData {
+	categories: IScegCategory[];
+	contents: IScegContents;
+}
+
+interface IScegCategory {
+	name: string;
+	id: string;
+}
+
+interface IScegContents {
+	[ category: string ]: IScegContent;
+}
+
+interface IScegContent {
+	category: IScegCategory;
+	el: IScegElement[];
+}
+
+const ID_PREFIX = 'sceg-cat-';
+
+export let config: IScegConfig;
+
+export function sceg (option?: IScegOption): void {
+	config = assignConfig(option);
+	const globPath = `${config.elementDir}/${config.elements}`;
+	const renderPromise = loadElements(globPath)
+		.then(compileElements)
+		.then(optimizeContent)
+		.then(render);
+
+	renderPromise.then((html) => {
+		const file: string = config.outDir || '';
+		if (file) {
+			mkdirp(path.dirname(file), (err) => {
+				fs.writeFile(file, html, (err) => {
+					if (err) {
+						throw err;
+					}
+				});
+			});
 		}
-		registElements(elementFilePathes);
 	});
 }
 
-function registElements (elementFilePathes: string[]): void {
-	Promise.all(elementFilePathes.map(compile)).then((el) => {
-		console.log(el);
-	});
-}
-
-function compile (elementFilePath: string): Promise<ScegElement> {
-	const extname = path.extname(elementFilePath);
-	const promise = new Promise<ScegElement>((resolve, reject) => {
-		fsp.readFile(elementFilePath, 'utf-8').then((sourceCode) => {
-			switch (extname) {
-				case '.pug': {
-					const el = compilePug(sourceCode);
-					resolve(el);
-				}
-				break;
-				default: {
-					resolve({
-						html: sourceCode,
-						title: 'none',
-						comment: '',
-						category: null,
-					});
-				}
+function loadElements (globPath: string): Promise<string[]> {
+	return new Promise<string[]>((resolve, reject) => {
+		glob(globPath, (err, elementFilePathes) => {
+			if (err) {
+				reject(err);
+				throw err;
 			}
+			resolve(elementFilePathes);
 		});
 	});
-	return promise;
 }
 
-function compilePug (sourceCode: string): ScegElement {
-	const ast = parse(lex(sourceCode));
-	let title = '';
-	let comment = '';
-	let category = '';
-	walk(ast, (node: { type: string, buffer: boolean, val: string }) => {
-		if (node.type === 'Comment' && !node.buffer) {
-			const line = node.val;
-			console.log(line);
-		}
+function compileElements (elementFilePathes: string[]): Promise<IScegElement[]> {
+	return Promise.all(elementFilePathes.map(compile));
+}
+
+function optimizeContent (elements: IScegElement[]): IScegContentData {
+	const categories: IScegCategory[] = [];
+	const contents: IScegContents = {};
+	elements
+		.sort((a, b) => a.index - b.index)
+		.forEach((el) => {
+			const category: IScegCategory = {
+				name: el.category,
+				id: ID_PREFIX + encodeURIComponent(el.category),
+			};
+			if (el.category && !(el.category in contents)) {
+				categories.push(category);
+				contents[el.category] = {
+					category,
+					el: [],
+				};
+			}
+			contents[el.category].el.push(el);
+		});
+	return { categories, contents };
+}
+
+function render (data: IScegContentData): Promise<string> {
+	return new Promise<string>((resolve, reject) => {
+		const index = `${config.indexDir}/${config.index}`;
+		fs.readFile(
+			index,
+			'utf-8',
+			(err, sourceCode) => {
+				if (err) {
+					reject(err);
+					throw err;
+				}
+				const tmpl = handlebars.compile(sourceCode);
+				const result = tmpl(data);
+				resolve(result);
+			}
+		);
 	});
-	return {
-		html: pug.render(sourceCode, { pretty: true }),
-		title,
-		comment,
-		category,
-	};
-}
-
-function assignConfig (option?: ScegOption): ScegOption {
-	return Object.assign<ScegOption, ScegOption>(
-		{
-			indexDir: './',
-			index: 'index.html',
-			elementDir: './el/',
-			elements: '**/*',
-		},
-		option || {},
-	);
 }
