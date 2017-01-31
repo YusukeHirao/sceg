@@ -3,13 +3,13 @@ import * as lex from 'pug-lexer';
 import * as parse from 'pug-parser';
 import * as walk from 'pug-walk';
 
-import { config } from '../sceg-core';
 import { IScegElement } from '../IScegElement';
+import { config, IScegOption } from '../sceg';
 
-export default function compilePug (sourceCode: string, index: number, filename: string): IScegElement {
+export default function compilePug (sourceCode: string, index: number, filename: string, option?: IScegOption): IScegElement {
 	const ast = parse(lex(sourceCode));
 	let title = filename;
-	let category = config!.otherLabel;
+	let category = (option ? option.otherLabel : false) || (config ? config.otherLabel : 'other');
 	const comment: string[] = [];
 	walk(ast, (node: { type: string, buffer: boolean, val: string }) => {
 		// if pug comment (not html comment)

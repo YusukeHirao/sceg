@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import * as path from 'path';
 import * as handlebars from 'handlebars';
 import * as mkdirp from 'mkdirp';
+import * as path from 'path';
 
 import { IScegElement } from './IScegElement';
 
@@ -50,29 +50,32 @@ const ID_PREFIX = 'sceg-cat-';
 
 export let config: IScegConfig;
 
-export function sceg (option?: IScegOption): void {
+export function sceg (option?: IScegOption): Promise<string> {
 	config = assignConfig(option);
 	const globPath = `${config.elementDir}/${config.elements}`;
-	const renderPromise = loadElements(globPath)
-		.then(compileElements)
-		.then(optimizeContent)
+	return globElements(globPath)
+		.then(readElements)
+		.then(optimize)
 		.then(render);
-
-	renderPromise.then((html) => {
-		const file: string = config.outDir || '';
-		if (file) {
-			mkdirp(path.dirname(file), (err) => {
-				fs.writeFile(file, html, (err) => {
-					if (err) {
-						throw err;
-					}
-				});
-			});
-		}
-	});
 }
 
-function loadElements (globPath: string): Promise<string[]> {
+export function output (html: string): void {
+	const file: string = config.outDir || '';
+	if (file) {
+		mkdirp(path.dirname(file), (ioErr) => {
+			if (ioErr) {
+				throw ioErr;
+			}
+			fs.writeFile(file, html, (writeErr) => {
+				if (writeErr) {
+					throw writeErr;
+				}
+			});
+		});
+	}
+}
+
+function globElements (globPath: string): Promise<string[]> {
 	return new Promise<string[]>((resolve, reject) => {
 		glob(globPath, (err, elementFilePathes) => {
 			if (err) {
@@ -84,11 +87,26 @@ function loadElements (globPath: string): Promise<string[]> {
 	});
 }
 
-function compileElements (elementFilePathes: string[]): Promise<IScegElement[]> {
-	return Promise.all(elementFilePathes.map(compile));
+function readElements (elementFilePathes: string[]): Promise<IScegElement[]> {
+	return Promise.all(elementFilePathes.map((elementFilePath: string, index: number): Promise<IScegElement> => {
+		const promise = new Promise<IScegElement>((resolve, reject) => {
+			fs.readFile(
+				elementFilePath,
+				'utf-8',
+				((_index: number, _elementFilePath: string, err: NodeJS.ErrnoException, sourceCode: string) => {
+					if (err) {
+						reject(err);
+						throw err;
+					}
+					resolve(compile(sourceCode, _index, _elementFilePath));
+				}).bind(fs, index, elementFilePath),
+			);
+		});
+		return promise;
+	}));
 }
 
-function optimizeContent (elements: IScegElement[]): IScegContentData {
+export function optimize (elements: IScegElement[]): IScegContentData {
 	const categories: IScegCategory[] = [];
 	const contents: IScegContents = {};
 	elements
@@ -110,8 +128,9 @@ function optimizeContent (elements: IScegElement[]): IScegContentData {
 	return { categories, contents };
 }
 
-function render (data: IScegContentData): Promise<string> {
+export function render (data: IScegContentData): Promise<string> {
 	return new Promise<string>((resolve, reject) => {
+		config = assignConfig(config);
 		const index = `${config.indexDir}/${config.index}`;
 		fs.readFile(
 			index,
@@ -124,7 +143,7 @@ function render (data: IScegContentData): Promise<string> {
 				const tmpl = handlebars.compile(sourceCode);
 				const result = tmpl(data);
 				resolve(result);
-			}
+			},
 		);
 	});
 }

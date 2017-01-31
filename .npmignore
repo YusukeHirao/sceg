@@ -2,4 +2,9 @@ src
 test
 docs
 npm-debug.log
-
+tsconfig.json
+tslint.json
+.editorconfig
+.eslintrc
+.babelrc
+gulpfile.coffee

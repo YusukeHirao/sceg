@@ -170,7 +170,7 @@
     ],
     "interface-name": [
       true,
-      "never-prefix"
+      "always-prefix"
     ],
     "jsdoc-format": true,
     "new-parens": true,

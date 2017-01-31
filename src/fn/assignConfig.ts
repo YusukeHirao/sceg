@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { IScegOption, IScegConfig } from '../sceg-core';
+import { IScegConfig, IScegOption } from '../sceg';
 
 export default function assignConfig (option?: IScegOption): IScegConfig {
 	return {

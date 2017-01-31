@@ -1,13 +1,13 @@
 import * as parse from 'posthtml-parser';
 import * as render from 'posthtml-render';
 
-import { config } from '../sceg-core';
 import { IScegElement } from '../IScegElement';
+import { config, IScegOption } from '../sceg';
 
-export default function compileHtml (sourceCode: string, index: number, filename: string): IScegElement {
+export default function compileHtml (sourceCode: string, index: number, filename: string, option?: IScegOption): IScegElement {
 	const ast: (string | Object)[] = parse(sourceCode);
 	let title = filename;
-	let category = config!.otherLabel;
+	let category = (option ? option.otherLabel : false) || (config ? config.otherLabel : 'other');
 	const comment: string[] = [];
 	const newAst: (string | Object)[] = [];
 	ast.forEach((node, i) => {
