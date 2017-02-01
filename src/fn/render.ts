@@ -1,4 +1,6 @@
 import * as fs from 'fs';
+import * as path from 'path';
+import * as pug from 'pug';
 import * as handlebars from 'handlebars';
 
 import assignConfig from './assignConfig';
@@ -16,11 +18,27 @@ export default function render (config: IScegConfig) {
 						reject(err);
 						throw err;
 					}
-					const tmpl = handlebars.compile(sourceCode);
-					const result = tmpl(data);
-					resolve(result);
+					const exname = path.extname(config.layout);
+					switch (exname.toLowerCase()) {
+						case '.pug':
+						case '.jade': {
+							resolve(renderPug(sourceCode, data));
+						}
+						break;
+						default: {
+							resolve(renderHbs(sourceCode, data));
+						}
+					}
 				},
 			);
 		});
 	};
+}
+
+function renderPug (sourceCode: string, data: IScegContentData) {
+	return pug.compile(sourceCode, { pretty: true })(data);
+}
+
+function renderHbs (sourceCode: string, data: IScegContentData) {
+	return handlebars.compile(sourceCode)(data);
 }
