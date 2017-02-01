@@ -1,10 +1,10 @@
 import * as fs from 'fs';
+import * as handlebars from 'handlebars';
 import * as path from 'path';
 import * as pug from 'pug';
-import * as handlebars from 'handlebars';
 
+import { IScegConfig, IScegContentData } from '../sceg';
 import assignConfig from './assignConfig';
-import { IScegElement, IScegConfig, IScegContentData, IScegCategory, IScegContents } from '../sceg';
 
 export default function render (config: IScegConfig) {
 	config = assignConfig(config);
@@ -22,7 +22,7 @@ export default function render (config: IScegConfig) {
 					switch (exname.toLowerCase()) {
 						case '.pug':
 						case '.jade': {
-							resolve(renderPug(sourceCode, data));
+							resolve(renderPug(sourceCode, data, config.layout));
 						}
 						break;
 						default: {
@@ -35,8 +35,8 @@ export default function render (config: IScegConfig) {
 	};
 }
 
-function renderPug (sourceCode: string, data: IScegContentData) {
-	return pug.compile(sourceCode, { pretty: true })(data);
+function renderPug (sourceCode: string, data: IScegContentData, filename: string) {
+	return pug.compile(sourceCode, { pretty: true, filename })(data);
 }
 
 function renderHbs (sourceCode: string, data: IScegContentData) {
