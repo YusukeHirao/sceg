@@ -5,7 +5,11 @@ sceg
 
 Styled content elements guide.
 
-## How to
+## Sample
+
+[Element Guide (bootstrap sample)](https://yusukehirao.github.io/sceg/sample/)
+
+## Usage
 
 ```sh
 $ npm install -D sceg
@@ -13,6 +17,16 @@ $ npm install -D sceg
 
 ```javascript
 import sceg from 'sceg';
+
+sceg.load().then((html) => {
+  sceg.output(html, './sample/index.html');
+});
+
+sceg.load({
+  layout: './default/layout/index.pug',
+}).then((html) => {
+  sceg.output(html, './sample/index-from-pug.html');
+});
 ```
 
 ## Plugins
