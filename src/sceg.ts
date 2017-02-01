@@ -48,7 +48,7 @@ const ID_PREFIX = 'sceg-cat-';
 
 export let config: IScegConfig;
 
-export function sceg (option?: IScegOption): Promise<string> {
+export function load (option?: IScegOption): Promise<string> {
 	config = assignConfig(option);
 	const globPath = `${config.elementDir}/${config.elements}`;
 	return globElements(globPath)

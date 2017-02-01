@@ -1,7 +1,5 @@
 import compile from './fn/compile';
-import { optimize, output, render, sceg } from './sceg';
-
-const load = sceg;
+import { load, optimize, output, render } from './sceg';
 
 export {
 	load,
