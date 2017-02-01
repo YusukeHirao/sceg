@@ -5,13 +5,14 @@ import * as lex from 'pug-lexer';
 import * as parse from 'pug-parser';
 import * as walk from 'pug-walk';
 
-import { IScegElement } from '../IScegElement';
-import { config, IScegOption } from '../sceg';
+import assignConfig from './assignConfig';
+import { IScegConfig, IScegElement } from '../sceg';
 
-export default function compilePug (sourceCode: string, index: number, filename: string, option?: IScegOption): IScegElement {
+export default function compilePug (sourceCode: string, index: number, filename: string, config: IScegConfig): IScegElement {
+	config = assignConfig(config);
 	const ast = parse(lex(sourceCode));
 	let title = filename;
-	let category = (option ? option.otherLabel : false) || (config ? config.otherLabel : 'other');
+	let category = config.otherLabel;
 	const comment: string[] = [];
 	walk(ast, (node: { type: string, buffer: boolean, val: string }) => {
 		// if pug comment (not html comment)

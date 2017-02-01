@@ -3,13 +3,14 @@ import * as marked from 'marked';
 import * as parse from 'posthtml-parser';
 import * as render from 'posthtml-render';
 
-import { IScegElement } from '../IScegElement';
-import { config, IScegOption } from '../sceg';
+import assignConfig from './assignConfig';
+import { IScegConfig, IScegElement } from '../sceg';
 
-export default function compileHtml (sourceCode: string, index: number, filename: string, option?: IScegOption): IScegElement {
+export default function compileHtml (sourceCode: string, index: number, filename: string, config: IScegConfig): IScegElement {
+	config = assignConfig(config);
 	const ast: (string | Object)[] = parse(sourceCode);
 	let title = filename;
-	let category = (option ? option.otherLabel : false) || (config ? config.otherLabel : 'other');
+	let category = config.otherLabel;
 	const comment: string[] = [];
 	const newAst: (string | Object)[] = [];
 	ast.forEach((node, i) => {
