@@ -1,12 +1,12 @@
 import compile from './fn/compile';
-import { optimize, render } from './sceg';
+import { optimize, output, render, sceg } from './sceg';
 
-// sceg({
-// 	outDir: '.sample/index.html',
-// });
+const load = sceg;
 
 export {
+	load,
 	compile,
 	optimize,
 	render,
+	output,
 };

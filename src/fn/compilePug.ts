@@ -1,3 +1,5 @@
+import * as marked from 'marked';
+
 import * as pug from 'pug';
 import * as lex from 'pug-lexer';
 import * as parse from 'pug-parser';
@@ -26,7 +28,7 @@ export default function compilePug (sourceCode: string, index: number, filename:
 		index,
 		html: pug.render(sourceCode, { pretty: true }),
 		title,
-		comment: comment.join('<br>'),
+		comment: marked(comment.join('\n')),
 		category,
 	};
 }

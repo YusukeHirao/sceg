@@ -1,15 +1,19 @@
 {
   "name": "sceg",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0-alpha.2",
   "description": "Style content elements guide",
   "main": "lib/index.js",
   "repository": "git@github.com:YusukeHirao/sceg.git",
   "author": "Yusuke Hirao <yusukehirao@me.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "node ./test/index.js"
+  },
   "devDependencies": {
     "@types/fs-promise": "^1.0.1",
     "@types/glob": "^5.0.30",
     "@types/handlebars": "^4.0.31",
+    "@types/marked": "^0.0.28",
     "@types/pug": "^2.0.4",
     "babel": "^6.5.2",
     "babel-loader": "^6.2.10",
@@ -35,6 +39,7 @@
     "@types/mkdirp": "^0.3.29",
     "glob": "^7.1.1",
     "handlebars": "^4.0.6",
+    "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
     "posthtml-parser": "^0.2.0",
     "posthtml-render": "^1.0.6",

@@ -14,7 +14,6 @@ export interface IScegOption {
 	index?: string;
 	elementDir?: string;
 	elements?: string;
-	outDir?: string | null;
 	otherLabel?: string;
 }
 
@@ -23,7 +22,6 @@ export interface IScegConfig {
 	index: string;
 	elementDir: string;
 	elements: string;
-	outDir: string | null;
 	otherLabel: string;
 }
 
@@ -59,20 +57,22 @@ export function sceg (option?: IScegOption): Promise<string> {
 		.then(render);
 }
 
-export function output (html: string): void {
-	const file: string = config.outDir || '';
-	if (file) {
-		mkdirp(path.dirname(file), (ioErr) => {
+export function output (html: string, filePath: string): Promise<void> {
+	return new Promise<void>((resolve, reject) => {
+		mkdirp(path.dirname(filePath), (ioErr) => {
 			if (ioErr) {
+				reject(ioErr);
 				throw ioErr;
 			}
-			fs.writeFile(file, html, (writeErr) => {
+			fs.writeFile(filePath, html, (writeErr) => {
 				if (writeErr) {
+					reject(writeErr);
 					throw writeErr;
 				}
+				resolve();
 			});
 		});
-	}
+	});
 }
 
 function globElements (globPath: string): Promise<string[]> {

@@ -1,3 +1,5 @@
+import * as marked from 'marked';
+
 import * as parse from 'posthtml-parser';
 import * as render from 'posthtml-render';
 
@@ -20,9 +22,6 @@ export default function compileHtml (sourceCode: string, index: number, filename
 					.split(/(?:\n|\r|\r\n)+/g);
 				info.forEach((line) => {
 					line = line.trim();
-					if (!line) {
-						return;
-					}
 					switch (line[0]) {
 						case '#': title = line.substr(1).trim(); break;
 						case '@': category = line.substr(1).trim(); break;
@@ -40,7 +39,7 @@ export default function compileHtml (sourceCode: string, index: number, filename
 		index,
 		html: render(newAst),
 		title,
-		comment: comment.join('<br>'),
+		comment: marked(comment.join('\n')),
 		category,
 	};
 }
