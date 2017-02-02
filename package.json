@@ -1,8 +1,9 @@
 {
   "name": "sceg",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Styled content elements guide",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "repository": "git@github.com:YusukeHirao/sceg.git",
   "author": "Yusuke Hirao <yusukehirao@me.com>",
   "license": "MIT",
