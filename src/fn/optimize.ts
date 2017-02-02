@@ -1,10 +1,8 @@
-import { IScegCategory, IScegConfig, IScegContents, IScegContentData, IScegElement } from '../sceg';
-import assignConfig from './assignConfig';
+import { IScegCategory, IScegContents, IScegContentData, IScegElement } from '../sceg';
 
 const ID_PREFIX = 'sceg-cat-';
 
-export default function optimize (config: IScegConfig) {
-	config = assignConfig(config);
+export default function optimize () {
 	return (elements: IScegElement[]): IScegContentData => {
 		const categories: IScegCategory[] = [];
 		const contents: IScegContents = {};

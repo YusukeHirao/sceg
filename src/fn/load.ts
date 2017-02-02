@@ -8,9 +8,8 @@ import { IScegOption } from '../sceg';
 
 export default function load (option?: IScegOption): Promise<string> {
 	const config = assignConfig(option);
-	const globPath = `${config.elementDir}/${config.elements}`;
-	return globElements(globPath, config)
+	return globElements(config)
 		.then(readElements(config))
-		.then(optimize(config))
+		.then(optimize())
 		.then(render(config));
 }

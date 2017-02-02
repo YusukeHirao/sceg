@@ -2,11 +2,11 @@ import * as fs from 'fs';
 
 import compile from './compile';
 
-import { IScegConfig, IScegElement } from '../sceg';
+import { IScegElement, IScegOption } from '../sceg';
 import assignConfig from './assignConfig';
 
-export default function readElements (config: IScegConfig) {
-	config = assignConfig(config);
+export default function readElements (option?: IScegOption) {
+	const config = assignConfig(option);
 	return (elementFilePathes: string[]): Promise<IScegElement[]> => {
 		return Promise.all(elementFilePathes.map((elementFilePath: string, index: number): Promise<IScegElement> => {
 			const promise = new Promise<IScegElement>((resolve, reject) => {
