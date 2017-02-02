@@ -3,6 +3,7 @@ babel = require 'gulp-babel'
 rename = require 'gulp-rename'
 header = require 'gulp-header'
 ts = require 'gulp-typescript'
+typescript = require 'typescript'
 moment = require 'moment'
 runSequence = require 'run-sequence'
 git = require 'git-rev-sync'
@@ -20,10 +21,11 @@ banner = """/**!
 """
 
 gulp.task 'ts', ->
-  gulp.src('src/**/*.ts')
-    .pipe ts 'tsconfig.json'
-    .pipe babel()
+  res = gulp.src('src/**/*.ts')
+    .pipe ts 'tsconfig.json', {typescript}
+  res.js.pipe babel()
     .pipe gulp.dest './lib/'
+  res.dts.pipe gulp.dest './lib/'
 
 gulp.task 'watch', ->
   gulp.watch 'src/**/*.ts', ['ts']

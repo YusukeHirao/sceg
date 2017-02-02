@@ -1,14 +1,11 @@
 export interface IScegOption {
 	layout?: string;
-	elementDir?: string;
-	elements?: string;
 	otherLabel?: string;
 }
 
 export interface IScegConfig {
+	path: string;
 	layout: string;
-	elementDir: string;
-	elements: string;
 	otherLabel: string;
 }
 

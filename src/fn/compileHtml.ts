@@ -4,10 +4,8 @@ import * as parse from 'posthtml-parser';
 import * as render from 'posthtml-render';
 
 import { IScegConfig, IScegElement } from '../sceg';
-import assignConfig from './assignConfig';
 
 export default function compileHtml (sourceCode: string, index: number, filename: string, config: IScegConfig): IScegElement {
-	config = assignConfig(config);
 	const ast: (string | Object)[] = parse(sourceCode);
 	let title = filename;
 	let category = config.otherLabel;

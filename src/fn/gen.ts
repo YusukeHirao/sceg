@@ -6,8 +6,15 @@ import render from './render';
 
 import { IScegOption } from '../sceg';
 
-export default function load (option?: IScegOption): Promise<string> {
-	const config = assignConfig(option);
+/**
+ * Generate guide page from elements
+ *
+ * @param paths Paths of element files that glob pattern
+ * @param option Optional configure
+ * @return rendered HTML string
+ */
+export default function gen (path: string, option: IScegOption = {}): Promise<string> {
+	const config = assignConfig(option, path);
 	return globElements(config)
 		.then(readElements(config))
 		.then(optimize())

@@ -6,10 +6,8 @@ import * as parse from 'pug-parser';
 import * as walk from 'pug-walk';
 
 import { IScegConfig, IScegElement } from '../sceg';
-import assignConfig from './assignConfig';
 
 export default function compilePug (sourceCode: string, index: number, filename: string, config: IScegConfig): IScegElement {
-	config = assignConfig(config);
 	const ast = parse(lex(sourceCode));
 	let title = filename;
 	let category = config.otherLabel;

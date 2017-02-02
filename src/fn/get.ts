@@ -5,8 +5,8 @@ import readElements from './readElements';
 
 import { IScegContentData, IScegOption } from '../sceg';
 
-export default function load (option?: IScegOption): Promise<IScegContentData> {
-	const config = assignConfig(option);
+export default function get (path: string, option: IScegOption = {}): Promise<IScegContentData> {
+	const config = assignConfig(option, path);
 	return globElements(config)
 		.then(readElements(config))
 		.then(optimize());

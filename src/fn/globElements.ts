@@ -1,13 +1,10 @@
 import * as glob from 'glob';
 
-import { IScegOption } from '../sceg';
-import assignConfig from './assignConfig';
+import { IScegConfig } from '../sceg';
 
-export default function globElements (option?: IScegOption): Promise<string[]> {
-	const config = assignConfig(option);
-	const globPath = `${config.elementDir}/${config.elements}`;
+export default function globElements (config: IScegConfig): Promise<string[]> {
 	return new Promise<string[]>((resolve, reject) => {
-		glob(globPath, (err, elementFilePathes) => {
+		glob(config.path, (err, elementFilePathes) => {
 			if (err) {
 				reject(err);
 				throw err;

@@ -16,7 +16,7 @@ $ npm install -D sceg
 ```
 
 ```javascript
-import sceg from 'sceg';
+import * as sceg from 'sceg';
 
 sceg.load().then((html) => {
   sceg.output(html, './sample/index.html');

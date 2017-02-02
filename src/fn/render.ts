@@ -3,11 +3,9 @@ import * as handlebars from 'handlebars';
 import * as path from 'path';
 import * as pug from 'pug';
 
-import { IScegContentData, IScegOption } from '../sceg';
-import assignConfig from './assignConfig';
+import { IScegConfig, IScegContentData } from '../sceg';
 
-export default function render (option?: IScegOption) {
-	const config = assignConfig(option);
+export default function render (config: IScegConfig) {
 	return (data: IScegContentData): Promise<string> => {
 		return new Promise<string>((resolve, reject) => {
 			fs.readFile(

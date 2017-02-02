@@ -3,7 +3,7 @@
     "alwaysStrict": true,
     "module": "commonjs",
     "target": "es2015",
-    "declaration": false,
+    "declaration": true,
     "strictNullChecks": true,
     "noImplicitAny": false,
     "outDir": "lib",
