@@ -5,8 +5,8 @@ import * as lex from 'pug-lexer';
 import * as parse from 'pug-parser';
 import * as walk from 'pug-walk';
 
-import assignConfig from './assignConfig';
 import { IScegConfig, IScegElement } from '../sceg';
+import assignConfig from './assignConfig';
 
 export default function compilePug (sourceCode: string, index: number, filename: string, config: IScegConfig): IScegElement {
 	config = assignConfig(config);

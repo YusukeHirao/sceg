@@ -1,5 +1,5 @@
+import { IScegCategory, IScegConfig, IScegContents, IScegContentData, IScegElement } from '../sceg';
 import assignConfig from './assignConfig';
-import { IScegElement, IScegConfig, IScegContentData, IScegCategory, IScegContents } from '../sceg';
 
 const ID_PREFIX = 'sceg-cat-';
 

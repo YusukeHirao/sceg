@@ -1,7 +1,7 @@
 import assignConfig from './assignConfig';
 import globElements from './globElements';
-import readElements from './readElements';
 import optimize from './optimize';
+import readElements from './readElements';
 import render from './render';
 
 import { IScegOption } from '../sceg';

@@ -1,7 +1,7 @@
 import * as glob from 'glob';
 
-import assignConfig from './assignConfig';
 import { IScegConfig } from '../sceg';
+import assignConfig from './assignConfig';
 
 export default function globElements (globPath: string, config: IScegConfig): Promise<string[]> {
 	config = assignConfig(config);

@@ -1,8 +1,7 @@
-import * as fs from 'fs';
 import * as path from 'path';
 
-import assignConfig from './assignConfig';
 import { IScegConfig, IScegElement } from '../sceg';
+import assignConfig from './assignConfig';
 
 import compileHtml from './compileHtml';
 import compilePug from './compilePug';
@@ -13,11 +12,9 @@ export default function compile (sourceCode: string, index: number, filePath: st
 	const filename = path.basename(filePath, extname);
 	switch (extname.toLowerCase()) {
 		case '.pug':
-		case '.jade': {
+		case '.jade':
 			return compilePug(sourceCode, index, filename, config);
-		}
-		default: {
+		default:
 			return compileHtml(sourceCode, index, filename, config);
-		}
 	}
 }

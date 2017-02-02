@@ -2,8 +2,8 @@ import * as fs from 'fs';
 
 import compile from './compile';
 
+import { IScegConfig, IScegElement } from '../sceg';
 import assignConfig from './assignConfig';
-import { IScegElement, IScegConfig } from '../sceg';
 
 export default function readElements (config: IScegConfig) {
 	config = assignConfig(config);
