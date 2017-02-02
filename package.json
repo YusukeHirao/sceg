@@ -1,7 +1,7 @@
 {
   "name": "sceg",
-  "version": "0.4.2",
-  "description": "Style content elements guide",
+  "version": "0.5.0",
+  "description": "Styled content elements guide",
   "main": "lib/index.js",
   "repository": "git@github.com:YusukeHirao/sceg.git",
   "author": "Yusuke Hirao <yusukehirao@me.com>",
@@ -14,6 +14,7 @@
     "@types/glob": "^5.0.30",
     "@types/handlebars": "^4.0.31",
     "@types/marked": "^0.0.28",
+    "@types/mkdirp": "^0.3.29",
     "@types/pug": "^2.0.4",
     "babel": "^6.5.2",
     "babel-loader": "^6.2.10",
@@ -32,19 +33,18 @@
     "moment": "^2.17.1",
     "power-assert": "^1.4.2",
     "run-sequence": "^1.2.2",
-    "tslint": "^4.0.2",
+    "tslint": "^4.4.2",
     "typescript": "^2.1.5"
   },
   "dependencies": {
-    "@types/mkdirp": "^0.3.29",
     "glob": "^7.1.1",
     "handlebars": "^4.0.6",
     "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
     "posthtml-parser": "^0.2.0",
     "posthtml-render": "^1.0.6",
-    "pug": "^2.0.0-beta9",
-    "pug-lexer": "^2.3.1",
+    "pug": "^2.0.0-beta10",
+    "pug-lexer": "^2.3.2",
     "pug-parser": "^2.0.2",
     "pug-walk": "^1.1.0"
   }
