@@ -15,6 +15,7 @@ export interface IScegElement {
 	title: string;
 	comment: string;
 	category: string;
+	snippetPrefix: string;
 }
 
 export interface IScegContentData {

@@ -2,7 +2,7 @@ import { IScegOption } from '../sceg';
 /**
  * Generate guide page from elements
  *
- * @param paths Paths of element files that glob pattern
+ * @param path Paths of element files that glob pattern
  * @param option Optional configure
  * @return rendered HTML string
  */

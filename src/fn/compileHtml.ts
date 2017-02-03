@@ -9,6 +9,7 @@ export default function compileHtml (sourceCode: string, index: number, filename
 	const ast: (string | Object)[] = parse(sourceCode);
 	let title = filename;
 	let category = config.otherLabel;
+	let snippetPrefix = '';
 	const comment: string[] = [];
 	const newAst: (string | Object)[] = [];
 	ast.forEach((node, i) => {
@@ -24,6 +25,7 @@ export default function compileHtml (sourceCode: string, index: number, filename
 					switch (line[0]) {
 						case '#': title = line.substr(1).trim(); break;
 						case '@': category = line.substr(1).trim(); break;
+						case ':': snippetPrefix = line.substr(1).trim(); break;
 						default: comment.push(line.trim());
 					}
 				});
@@ -40,5 +42,6 @@ export default function compileHtml (sourceCode: string, index: number, filename
 		title,
 		comment: marked(comment.join('\n')),
 		category,
+		snippetPrefix,
 	};
 }

@@ -11,6 +11,7 @@ export default function compilePug (sourceCode: string, index: number, filename:
 	const ast = parse(lex(sourceCode));
 	let title = filename;
 	let category = config.otherLabel;
+	let snippetPrefix = '';
 	const comment: string[] = [];
 	walk(ast, (node: { type: string, buffer: boolean, val: string }) => {
 		// if pug comment (not html comment)
@@ -19,6 +20,7 @@ export default function compilePug (sourceCode: string, index: number, filename:
 			switch (line[0]) {
 				case '#': title = line.substr(1).trim(); break;
 				case '@': category = line.substr(1).trim(); break;
+				case ':': snippetPrefix = line.substr(1).trim(); break;
 				default: comment.push(line.trim());
 			}
 		}
@@ -29,5 +31,6 @@ export default function compilePug (sourceCode: string, index: number, filename:
 		title,
 		comment: marked(comment.join('\n')),
 		category,
+		snippetPrefix,
 	};
 }
