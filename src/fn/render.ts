@@ -20,11 +20,11 @@ export default function render (config: IScegConfig) {
 					switch (exname.toLowerCase()) {
 						case '.pug':
 						case '.jade': {
-							resolve(renderPug(sourceCode, data, config.layout));
+							resolve(renderPug(sourceCode, data, config.layout, config.data));
 						}
 						break;
 						default: {
-							resolve(renderHbs(sourceCode, data));
+							resolve(renderHbs(sourceCode, data, config.data));
 						}
 					}
 				},
@@ -33,10 +33,10 @@ export default function render (config: IScegConfig) {
 	};
 }
 
-function renderPug (sourceCode: string, data: IScegContentData, filename: string) {
-	return pug.compile(sourceCode, { pretty: true, filename })(data);
+function renderPug (sourceCode: string, data: IScegContentData, filename: string, customData: {} = {}) {
+	return pug.compile(sourceCode, { pretty: true, filename })(Object.assign(customData, data));
 }
 
-function renderHbs (sourceCode: string, data: IScegContentData) {
-	return handlebars.compile(sourceCode)(data);
+function renderHbs (sourceCode: string, data: IScegContentData, customData: {} = {}) {
+	return handlebars.compile(sourceCode)(Object.assign(customData, data));
 }

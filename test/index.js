@@ -4,7 +4,12 @@ sceg.gen('./default/el/*').then((html) => {
 	sceg.output(html, './sample/index.html');
 });
 
-sceg.gen('./default/el/*', { layout: './default/layout/index.pug' }).then((html) => {
+sceg.gen('./default/el/*', {
+	layout: './default/layout/index.pug',
+	data: {
+		TITLE: 'title form custom data',
+	},
+}).then((html) => {
 	sceg.output(html, './sample/index-from-pug.html');
 });
 

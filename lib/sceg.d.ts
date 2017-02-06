@@ -1,11 +1,16 @@
 export interface IScegOption {
     layout?: string;
     otherLabel?: string;
+    /**
+     * Custom data
+     */
+    data?: {};
 }
 export interface IScegConfig {
     path: string;
     layout: string;
     otherLabel: string;
+    data?: {};
 }
 export interface IScegElement {
     index: number;
