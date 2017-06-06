@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
     "module": "commonjs",
     "target": "es2015",
     "declaration": true,
-    "strictNullChecks": true,
-    "noImplicitAny": false,
+    "strict": true,
     "outDir": "lib",
     "rootDir": ".",
     "sourceMap": false,
