@@ -27,7 +27,16 @@ export default function compilePug (sourceCode: string, index: number, filename:
 	});
 	return {
 		index,
-		html: pug.render(sourceCode, { pretty: true }),
+		html: pug.render(
+			sourceCode,
+			Object.assign<pug.Options, pug.Options>(
+				{
+					pretty: true,
+					doctype: 'html',
+				},
+				config.pugOption,
+			),
+		).trim(),
 		title,
 		comment: marked(comment.join('\n')),
 		category,

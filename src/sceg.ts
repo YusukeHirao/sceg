@@ -1,6 +1,9 @@
+import * as pug from 'pug';
+
 export interface IScegOption {
 	layout?: string;
 	otherLabel?: string;
+	pugOption?: pug.Options;
 
 	/**
 	 * Custom data
@@ -12,6 +15,7 @@ export interface IScegConfig {
 	path: string;
 	layout: string;
 	otherLabel: string;
+	pugOption: pug.Options;
 	data?: {};
 }
 

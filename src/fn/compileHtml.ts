@@ -38,7 +38,7 @@ export default function compileHtml (sourceCode: string, index: number, filename
 	});
 	return {
 		index,
-		html: render(newAst),
+		html: render(newAst).trim(),
 		title,
 		comment: marked(comment.join('\n')),
 		category,
