@@ -3,15 +3,10 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title= TITLE
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
-    link(href='https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css', rel='stylesheet')
-    link(href='https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCoreRDark.min.css', rel='stylesheet')
-    link(href='https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeRDark.css', rel='stylesheet')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css')
     style.
-      .syntaxhighlighter {
-        padding: 10px 0;
-        margin-bottom: 20px !important;
-      }
       .sceg-preview {
         border: 1px solid #999;
         padding: 2em;
@@ -25,15 +20,11 @@ html(lang='en')
       .sceg-comment p:last-child {
         margin-bottom: 0;
       }
-    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js', integrity='sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb', crossorigin='anonymous')
-    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushXml.min.js')
-    script.
-      addEventListener('DOMContentLoaded', function() {
-        SyntaxHighlighter.all();
-      });
+    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js')
   body
     header.container.mt-5
       h1 Element Guide (bootstrap sample)
@@ -54,5 +45,6 @@ html(lang='en')
               h5 Preview
               .sceg-preview.mb-3 !{el.html}
               h5 Code
-              pre(class='brush: html;') !{el.html}
+              pre.language-markup
+                code.language-markup= el.html
               small.sceg-comment !{el.comment}
